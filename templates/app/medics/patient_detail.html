@@ -1,0 +1,39 @@
+{% extends "app/medics/base.html" %}
+
+{% block content %}
+   <div class="row">
+   		<div class="col-md-12" style="margin-top: 20px">
+   			<h3>Informacion personal</h3>
+   			<hr>
+   		</div>
+   		<div class="col-md-12">
+   			<p>
+   				<strong>Nombre: </strong>{{patient.user.first_name}}<br>
+   				<strong>Apellido: </strong>{{patient.user.first_name}}<br>
+   				<strong>Sexo: </strong>{% if patient.gender == 'M' %}Masculino{% else %}Femenino{% endif %}<br>
+   				<br>
+   				{% if dx_requests.count > 0 %}
+	   				<strong>Peso: </strong>{{dx_requests.0.weight}} kg.<br>
+	   				<strong>Estatura: </strong>{{dx_requests.0.height}} cm.<br>
+	   				<strong>Ultima actualizacion: </strong>{{dx_requests.0.date}}<br>
+   				{% endif %}
+   			</p>
+   		</div>
+   </div>
+   <div class="row">
+         <div class="col-md-12" style="margin-top: 20px">
+            <h3>Ultimas consultas</h3>
+            <hr>
+         </div>
+         {% for diagnostic in diagnostics %}
+         <div class="col-md-12">
+            <p>
+               fecha: {{ diagnostic.diagnostics.date }}<br>
+               <strong>Peso: </strong>{{diagnostic.weight}} kg.<br>
+               <strong>Estatura: </strong>{{diagnostic.height}} cm.<br>
+               recomendaciones: {{ diagnostic.diagnostics.recomendations }}
+            </p>
+         </div>
+         {% endfor %}
+   </div>
+{% endblock %}

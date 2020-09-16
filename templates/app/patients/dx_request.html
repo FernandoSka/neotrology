@@ -1,0 +1,26 @@
+{% extends "app/patients/base.html" %}
+{% load template_tags %}
+{% block content%}
+<div class="row" style="margin-top: 20px;">
+	<div class="col-md-12">
+		<h3>Por favor rellena el formulario para el posterior diagnóstico</h3>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-4">
+		<form method="post">
+			{% csrf_token %}
+		{% for field in form %}
+			<div class="form-group">
+				{{ field.label }}
+				{{ field | addclass:"form-control"}}
+				{% if field.help_text %}
+				<small id="pass2Help" class="form-text text-muted">{{field.help_text}}</small>
+				{% endif %}
+			</div>
+		{% endfor %}
+			<input type="submit" class="btn btn-success" value="Enviar">
+		</form>
+	</div>
+</div>
+{%  endblock %}

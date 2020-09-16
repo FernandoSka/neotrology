@@ -1,0 +1,67 @@
+{% extends "app/medics/base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+{% endblock %}
+
+{% block content %}
+   <div class="row">
+   		<div class="col-md-12" style="margin-top: 20px">
+   			<h3>Diagnosticos pendientes:</h3>
+   			<hr>
+   		</div>
+		{% for dx_req in pending_diagnostics %}
+		<div class="col-md-3 col-lg-2 col-sm-6">
+			<p><strong>{{ dx_req.patient.user.first_name }} {{ dx_req.patient.user.last_name }}</strong></p>
+			<p>Sexo: {% if dx_req.patient.gender == 'M' %}Masculino{% else %}Femenino{% endif %}</p>
+			<p>Peso: {{ dx_req.weight}} <small id="pass2Help" class="text-muted">kg</small></p>
+			<p>Altura: {{ dx_req.height }} <small id="pass2Help" class="text-muted">cm</small></p>
+			<a href="{% url 'medics:diagnostic_request_detail' dx_req.id %}" class="btn btn-primary">Atender</a>
+		</div>
+		{% empty %}
+		<div class="col-md-12">
+			<h4>Sin pendientes</h4>
+		</div>
+		{% endfor %}
+   </div>
+   <div class="row">
+   		<div class="col-md-12" style="margin-top: 20px">
+   			<h3>Lista de pacientes:</h3>
+   		</div>
+		<div class="col-md-6">
+			<table id="patient_table">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Sexo</th>
+						<th>Peso</th>
+						<th>Altura</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for patient in patient_list %}
+					<tr>
+						<td><a href="{% url 'medics:patient_detail' patient.id %}">{{ patient.user.first_name }} {{ patient.user.last_name }} </a></td>
+						<td>{% if patient.gender == 'M' %}Masculino{% else %}Femenino{% endif %}</td>
+						<td>{{ patient.actual_weight}}</td>
+						<td>{{ patient.actual_height }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+   </div>
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{% static 'jquery/3.5.1/jquery.min.js' %}"></script>
+<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+	$(document).ready( function () {
+    	$('#patient_table').DataTable();
+	});
+	
+</script>
+{% endblock %}

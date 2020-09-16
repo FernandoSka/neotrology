@@ -1,0 +1,43 @@
+{% extends "app/medics/base.html" %}
+{% load template_tags %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+{% endblock %}
+
+{% block content %}
+   <div class="row">
+   		<div class="col-md-12" style="margin-top: 20px">
+   			<h3>Informacion:</h3>
+   			<hr>
+   		</div>
+   		<div class="col-md-3 col-lg-2 col-sm-6">
+			<p><strong>{{ dxrequest.patient.user.first_name }} {{ dxrequest.patient.user.last_name }}</strong></p>
+			<p>Sexo: {% if dxrequest.patient.gender == 'M' %}Masculino{% else %}Femenino{% endif %}</p>
+			<p>Peso: {{ dxrequest.weight}} <small id="pass2Help" class="text-muted">kg</small></p>
+			<p>Altura: {{ dxrequest.height }} <small id="pass2Help" class="text-muted">cm</small></p>
+		</div>
+   	</div>
+   <div class="row">
+   		<div class="col-md-12" style="margin-top: 20px">
+   			<h3>Diagnostico:</h3>
+   			<hr>
+   		</div>
+   		<div class="col-md-12">
+   			<form method="post">
+   				{% csrf_token %}
+	   			{% for field in form %}
+				<div class="form-group">
+					{{ field.label }}
+					<textarea name="recomendations" cols="40" rows="10" class="form-control" required="" id="id_recomendations" style="margin-top: 0px; margin-bottom: 0px; height: 181px; width: 100%"></textarea>
+					{% if field.help_text %}
+					<small id="pass2Help" class="form-text text-muted">{{field.help_text}}</small>
+					{% endif %}
+				</div>
+				{% endfor %}
+				<input type="submit" class="btn btn-success" value="Completar consulta">
+			</form>
+		</div>
+   	</div>
+{% endblock %}
